@@ -17,15 +17,19 @@ import os
 ExpBlocks = ["nf","tf",
              "nf","tf",
              "nf","tf",
-             "nf","tf",
-             "nf","tf",]
+             "nf_bv","tf_bv",
+             "nf_bv","tf_bv",
+             "nf_bv","tf_bv",
+             "nf_of","tf_of",
+             "nf_of","tf_of",
+             "nf_of","tf_of",]
 # ExpBlocks = ["Testing"]
 
 # ----------- Participant info ----------------
 
 # For clamp and rotation direction
 rot_direction = 1  # 1 for forwrad, -1 for backward
-participant = 98
+participant = 1
 
 
 study_id = "Wrist Visuomotor Rotation"
@@ -54,31 +58,30 @@ if ExpBlocks[0] == "practice":
 # # Check if directory exists and if it is empty
 dir_path = f"data/p{str(participant)}"
 
-if ExpBlocks[0] == "practice":
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
-        print(
-            """
-        Directory didn't exist so one was created. Continuing with program.
+if not os.path.exists(dir_path):
+    os.makedirs(dir_path)
+    print(
         """
-        )
-    elif len(os.listdir(dir_path)) == 0:
-        print(
-            """
-        Directory already exists and is empty. Continuing with program."""
-        )
-    elif os.path.exists(dir_path) and not len(dir_path) == 0:
-        print(
-            """
-        This directory exists and isn't empty.
-        Please check the contents of the directory before continuing.
+    Directory didn't exist so one was created. Continuing with program.
+    """
+    )
+elif len(os.listdir(dir_path)) == 0:
+    print(
         """
-        )
-        ans = input("Would you like to overwrite this data? (y/n)")
-        if ans.lower() == "y":
-            print("Continuing with program")
-        elif ans.lower() == "n":
-            exit()
+    Directory already exists and is empty. Continuing with program."""
+    )
+elif os.path.exists(dir_path) and not len(dir_path) == 0:
+    print(
+        """
+    This directory exists and isn't empty.
+    Please check the contents of the directory before continuing.
+    """
+    )
+    ans = input("Would you like to overwrite this data? (y/n)")
+    if ans.lower() == "y":
+        print("Continuing with program")
+    elif ans.lower() == "n":
+        exit()
 
 # set up file path
 file_path = f"data/p{str(participant)}/p{str(participant)}"
@@ -145,12 +148,9 @@ input("Press enter to continue to first block ... ")
 block_counter = 0
 for block in range(len(ExpBlocks)):
     block_counter += 1
-    
-    if (participant % 2) == 0:
-        condition = lib.read_trial_data("Trials_forward.xlsx", ExpBlocks[block])
-    else:
-        condition = lib.read_trial_data("Trials_backward.xlsx", ExpBlocks[block])
-    file_ext = ExpBlocks[block] +"_" + block_counter
+    condition = lib.read_trial_data("Trials.xlsx", ExpBlocks[block])
+
+    file_ext = ExpBlocks[block] +"_" + str(block_counter)
 
     # Summary data dictionaries for this block
     block_data = lib.generate_trial_dict()
