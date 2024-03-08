@@ -32,7 +32,7 @@ rot_direction = 1  # 1 for forwrad, -1 for backward
 participant = 1
 
 
-study_id = "Wrist Visuomotor Rotation"
+study_id = "Alternating vision - no vision"
 experimenter = "Gregg"
 current_date = datetime.now()
 date_time_str = current_date.strftime("%Y-%m-%d %H:%M:%S")
@@ -44,7 +44,7 @@ study_info = {
     "Study ID": study_id,
     "Experimenter": experimenter,
 }
-# experiment_info = pd.DataFrame.from_dict(study_info)
+experiment_info = pd.DataFrame.from_dict(study_info)
 
 if ExpBlocks[0] == "practice":
     print(study_info)
